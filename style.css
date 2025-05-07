@@ -727,3 +727,93 @@ strong {
         padding: 0.8rem 1.2rem;
     }
 }
+
+
+/* --- Ghaybah Timer Styles --- */
+.ghaybah-timer-section {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    padding: 2rem 0;
+    background-color: var(--light-color); /* Optional: to make the section stand out a bit */
+    border-radius: var(--border-radius);
+}
+
+.ghaybah-timer-section .subsection-title {
+    color: var(--primary-color); /* Ensure title color matches theme */
+    margin-bottom: 1.5rem;
+}
+
+.timer-container {
+    display: block; /* Changed from inline-block for better centering and responsiveness */
+    max-width: 500px; /* Limit width */
+    margin: 0 auto 1.5rem auto; /* Center the container */
+    padding: 1.5rem; /* Adjusted padding */
+    border-radius: var(--border-radius);
+    background: #fff; /* White background like cards */
+    box-shadow: var(--box-shadow); /* Use existing card shadow */
+    border: 1px solid #e8eaed; /* Subtle border like FAQ items */
+}
+
+.time-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.1rem; /* Adjusted font size */
+    font-family: var(--body-font);
+    color: var(--text-color);
+    text-align: left; /* Align text to the left within the container */
+}
+
+.time-list li {
+    padding: 0.75rem 0.5rem; /* Adjusted padding */
+    line-height: 1.6;
+    border-bottom: 1px solid #f0f0f0; /* Subtle separator */
+    display: flex; /* For better alignment of icon, text, and value */
+    align-items: center;
+    justify-content: space-between; /* Helps push value to the right */
+}
+
+.time-list li:last-child {
+    border-bottom: none;
+}
+
+.time-list li strong {
+    color: var(--primary-color);
+    margin-left: 0.5rem; /* Space after emoji */
+    /* min-width: 160px; /* Temporarily reduce or remove to test */
+    flex-shrink: 0; /* Prevent the label from shrinking */
+    margin-right: 10px; /* Add some space between label and value */
+}
+.time-list li span {
+    font-weight: 500;
+    color: var(--dark-color);
+    text-align: right; /* Align text to the right */
+    /* margin-left: auto; /* This is fine with justify-content: space-between on parent */
+    /* padding-left: 10px; /* Add if needed */
+    overflow-wrap: break-word; /* Allows 'seconds' to wrap if needed */
+    word-wrap: break-word; /* Older browsers */
+    hyphens: auto; /* Optional: helps with word breaking */
+    flex-grow: 1; /* Allow span to take up space but also wrap */
+    /* To prevent the number itself from breaking, this is tricky if it's one long string with "seconds" */
+}
+
+/* Responsive adjustments for the timer if needed */
+@media (max-width: 576px) {
+    .timer-container {
+        padding: 1rem;
+    }
+    .time-list {
+        font-size: 1rem;
+    }
+    .time-list li strong {
+        min-width: 140px; /* Adjust for smaller screens */
+    }
+}
+
+/* Ensure the highlight class in the about section has a centered text if it's full width */
+.about-urgency .highlight.text-center {
+    display: block; /* Make it block to take full width for text-align to work */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 700px; /* Optional: constrain its width */
+}
