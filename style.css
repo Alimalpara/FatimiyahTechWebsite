@@ -314,8 +314,10 @@ strong { font-weight: 700; color: var(--text-white); }
 }
 
 .logo-img {
-    height: 48px;
+    height: 72px; /* Increased to make logo larger and more prominent */
     width: auto;
+    max-width: 240px;
+    object-fit: contain;
     transition: transform 0.4s var(--ease-spring);
     filter: drop-shadow(0 0 10px rgba(232,99,43,0.15));
 }
