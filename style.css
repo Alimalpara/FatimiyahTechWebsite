@@ -1313,6 +1313,12 @@ strong { font-weight: 700; color: var(--text-white); }
     gap: 1.25rem;
 }
 
+.animations-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
 .testimonial-card {
     padding: 2.5rem;
     display: flex;
@@ -1585,6 +1591,7 @@ strong { font-weight: 700; color: var(--text-white); }
     .pillars-grid { grid-template-columns: repeat(2, 1fr); }
     .benefits-grid { grid-template-columns: 1fr; }
     .testimonial-grid { grid-template-columns: 1fr 1fr; }
+    .animations-reviews-grid { grid-template-columns: 1fr; }
     .cta-inner { padding: 4rem 2rem; }
 }
 
@@ -1640,7 +1647,11 @@ strong { font-weight: 700; color: var(--text-white); }
     .pillars-grid,
     .project-grid,
     .testimonial-grid,
-    .video-grid { grid-template-columns: 1fr; }
+    .animations-reviews-grid,
+    .benefits-grid,
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
 
     .animations-hero-inner-wrap { padding: 2rem; }
     .involved-list { flex-direction: column; align-items: center; }
