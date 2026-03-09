@@ -702,7 +702,7 @@ strong { font-weight: 700; color: var(--text-white); }
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
+    transform: var(--btn-transform, translateY(-3px));
     box-shadow:
         0 8px 30px rgba(232,99,43,0.4),
         0 0 60px rgba(232,99,43,0.1),

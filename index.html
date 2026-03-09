@@ -8,7 +8,26 @@
     <meta name="description"
         content="Fatimiyah Tech is a 24/7 technology-driven initiative leveraging AI, automation, and digital innovation to serve the Ummah and prepare for the Zuhur.">
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css?v=4.0">
+
+    <!-- SEO Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fatimiyah Tech",
+      "url": "https://fatimiyahtech.org",
+      "logo": "https://fatimiyahtech.org/images/logo1.png",
+      "description": "Fatimiyah Tech is a 24/7 technology-driven initiative leveraging AI, automation, and digital innovation to serve the Ummah.",
+      "department": [
+        {
+          "@type": "Organization",
+          "name": "Fatimiyah Animations",
+          "description": "Cinematic-quality, low-stimulation Islamic educational stories for children."
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -402,8 +421,51 @@
                     <p>From mobile apps to digital content, we're building technology that serves Islam.</p>
                 </div>
 
+                <style>
+                    .status-indicator {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 0.75rem;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        padding: 4px 10px;
+                        border-radius: var(--radius-pill);
+                        margin-bottom: 1rem;
+                    }
+                    .status-live {
+                        background: rgba(34, 197, 94, 0.1);
+                        color: #4ade80;
+                        border: 1px solid rgba(34, 197, 94, 0.2);
+                    }
+                    .status-dev {
+                        background: rgba(245, 158, 11, 0.1);
+                        color: #fbbf24;
+                        border: 1px solid rgba(245, 158, 11, 0.2);
+                    }
+                    .status-dot {
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                    }
+                    .status-live .status-dot {
+                        background: #4ade80;
+                        box-shadow: 0 0 8px #4ade80;
+                        animation: pulseGreen 2s infinite;
+                    }
+                    .status-dev .status-dot {
+                        background: #fbbf24;
+                        box-shadow: 0 0 8px #fbbf24;
+                        animation: pulseOrange 2s infinite;
+                    }
+                    @keyframes pulseGreen { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+                    @keyframes pulseOrange { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+                </style>
+
                 <div class="project-grid">
                     <div class="glass-card project-card tilt-card reveal delay-1">
+                        <div class="status-indicator status-live"><span class="status-dot"></span>Live & Growing</div>
                         <div class="project-icon">📱</div>
                         <h3>Al Asma ul Husna App</h3>
                         <p>Learn the 99 Names of Allah (s.w.t.) interactively with our beautifully designed mobile
@@ -413,6 +475,7 @@
                             App</a>
                     </div>
                     <div class="glass-card project-card tilt-card reveal delay-2">
+                        <div class="status-indicator status-live"><span class="status-dot"></span>Over 30 Episodes</div>
                         <div class="project-icon">🎬</div>
                         <h3>Fatimiyah Animations</h3>
                         <p>Cinematic-quality Islamic animations for children ages 3–7. 32+ episodes of the Hasan & Family
@@ -421,6 +484,7 @@
                             rel="noopener noreferrer" class="btn btn-secondary btn-sm">Watch Now</a>
                     </div>
                     <div class="glass-card project-card tilt-card reveal delay-3">
+                        <div class="status-indicator status-dev"><span class="status-dot"></span>In Expansion</div>
                         <div class="project-icon">🕌</div>
                         <h3>Masaib.org Channel</h3>
                         <p>Masaib channel organized by Scholars and events — a comprehensive resource for the
@@ -781,6 +845,33 @@
         initTiltCards();
 
         // ==========================================
+        // 5.5. MAGNETIC BUTTONS (Premium Feel)
+        // ==========================================
+        function initMagneticButtons() {
+            const buttons = document.querySelectorAll('.btn-primary');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    // Subtle pull
+                    const pullX = x * 0.15;
+                    const pullY = y * 0.15;
+                    
+                    btn.style.setProperty('--btn-transform', `translate(${pullX}px, ${pullY}px) scale(1.02)`);
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.setProperty('--btn-transform', 'translateY(-3px)');
+                });
+            });
+        }
+        
+        initMagneticButtons();
+
+        // ==========================================
         // 6. CURSOR GLOW (desktop only)
         // ==========================================
         (function () {
@@ -952,6 +1043,11 @@
         }
 
         (async function () {
+            // Update gregorian seconds/hours immediately and every second
+            updateGregorian();
+            setInterval(updateGregorian, 1000);
+
+            // Fetch and set Hijri dates once
             const h = await getCurrentHijriDate();
             if (h) {
                 const d = getHijriDifference(h);
@@ -959,8 +1055,6 @@
                 document.getElementById('totalHijriMonths').textContent = d.totalMonths.toLocaleString();
                 document.getElementById('totalHijriDays').textContent = d.totalDays.toLocaleString();
             }
-            updateGregorian();
-            setInterval(updateGregorian, 1000);
         })();
     </script>
 

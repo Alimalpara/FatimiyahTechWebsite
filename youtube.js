@@ -245,10 +245,14 @@
     function createVideoCard(video) {
         const card = document.createElement('a');
         card.href = `https://www.youtube.com/watch?v=${video.id}`;
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
         card.className = 'video-card glass-card reveal';
         card.style.textDecoration = 'none';
+        
+        // Open video in modal instead of new tab
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            openVideoModal(video);
+        });
 
         const thumb = video.thumbnail || `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
 
@@ -286,6 +290,83 @@
 
         // Trigger scroll animations for new elements
         if (window.initScrollReveal) window.initScrollReveal();
+    }
+
+    /**
+     * Inline Video Modal Player
+     */
+    function openVideoModal(video) {
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'custom-video-modal-overlay';
+        Object.assign(overlay.style, {
+            position: 'fixed', inset: '0', zIndex: '99999',
+            background: 'rgba(3, 7, 18, 0.9)', backdropFilter: 'blur(10px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: '0', transition: 'opacity 0.3s ease', padding: '20px'
+        });
+
+        // Create close button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '✕';
+        Object.assign(closeBtn.style, {
+            position: 'absolute', top: '24px', right: '32px',
+            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            color: '#fff', fontSize: '24px', width: '48px', height: '48px',
+            borderRadius: '50%', cursor: 'pointer', display: 'flex', 
+            alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s'
+        });
+        closeBtn.onmouseover = () => closeBtn.style.background = 'rgba(232,99,43,0.8)';
+        closeBtn.onmouseout = () => closeBtn.style.background = 'rgba(255,255,255,0.1)';
+
+        // Create video container
+        const videoWrapper = document.createElement('div');
+        Object.assign(videoWrapper.style, {
+            width: '100%', maxWidth: '1000px', aspectRatio: '16/9',
+            background: '#000', borderRadius: '16px', overflow: 'hidden',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            transform: 'scale(0.95)', transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+        });
+
+        videoWrapper.innerHTML = `
+            <iframe width="100%" height="100%" 
+                src="https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1" 
+                title="${video.title}" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        `;
+
+        // Assemble and append
+        overlay.appendChild(closeBtn);
+        overlay.appendChild(videoWrapper);
+        document.body.appendChild(overlay);
+
+        // Animate in
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            videoWrapper.style.transform = 'scale(1)';
+        });
+
+        // Close logic
+        const closeModal = () => {
+            overlay.style.opacity = '0';
+            videoWrapper.style.transform = 'scale(0.95)';
+            setTimeout(() => document.body.removeChild(overlay), 300);
+        };
+        
+        closeBtn.onclick = closeModal;
+        overlay.onclick = (e) => { if(e.target === overlay) closeModal(); };
+        
+        // Escape key to close
+        const escListener = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', escListener);
+            }
+        };
+        document.addEventListener('keydown', escListener);
     }
 
     /**
