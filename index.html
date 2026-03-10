@@ -10,6 +10,16 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="style.css?v=4.0">
 
+    <!-- Immediate theme application to prevent FOUC -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
     <!-- SEO Structured Data -->
     <script type="application/ld+json">
     {
@@ -57,10 +67,16 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <div class="hamburger" id="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div style="display: flex; align-items: center; z-index: 101;">
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+                <div class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
         <div class="nav-overlay" id="nav-overlay"></div>
@@ -727,6 +743,28 @@
         let lastScroll = 0;
         window.addEventListener('scroll', () => {
             siteHeader.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // ==========================================
+        // 1.5 THEME TOGGLE
+        // ==========================================
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Add subtle spin animation
+            const iconToSpin = newTheme === 'light' ? moonIcon : sunIcon;
+            iconToSpin.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                iconToSpin.style.transform = 'none';
+            }, 600);
         });
 
         // ==========================================
