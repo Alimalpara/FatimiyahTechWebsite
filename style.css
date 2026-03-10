@@ -182,7 +182,8 @@ html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: rgba(232,99,43,0.3) transparent;
-    overflow-x: clip; /* Stronger than hidden — prevents any scroll trigger from absolute elements */
+    overflow-x: clip;
+    background: var(--bg-void);
 }
 
 html::-webkit-scrollbar { width: 6px; }
@@ -199,8 +200,7 @@ body {
     background: var(--bg-void);
     font-size: 16px;
     overflow-x: clip;
-    width: 100%;
-    max-width: 100vw;
+    min-width: 0;
     position: relative;
     -webkit-font-smoothing: antialiased;
 }
@@ -939,7 +939,7 @@ img, iframe, video {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    padding: 2rem;
+    padding: 1.5rem;
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     overflow: hidden;
